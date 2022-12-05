@@ -1,5 +1,16 @@
 # React 부터 RTK query 까지
 
+
+# v3
+## 사용기술
+- v2
+- @reduxjs/toolkit
+- react-redux
+## 예제의 목적
+- v2의 다크모드를 redux를 이용해서 구현
+## 실행방법 
+- v2와 동일
+
 # v2
 ## 사용기술
 - v1

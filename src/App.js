@@ -4,6 +4,8 @@ import {useEffect, useState} from 'react';
 import {useImmer} from 'use-immer';
 import { Routes, Route, Link, useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
+import { useSelector, useDispatch } from 'react-redux';
+import darkSlice from './features/dark/darkSlice';
 const Header = ({title}) => {
   return <header>
       <h1><Link to="/">{title}</Link></h1>
@@ -104,13 +106,19 @@ const Read = ()=>{
   }, [id]);
   return <Article title={title} body={body}></Article>
 }
-const DarkMode = ({isDark, changeMode})=>{
+const DarkMode = ()=>{
+  const dispatch = useDispatch();
+  const isDark = useSelector((state)=>{
+    return state.darkmode.isDark;
+  });
   return <div>
-    <button onClick={()=>{changeMode(!isDark);}}>{isDark ? 'Light' : 'Dark'}</button>
+    <button onClick={()=>{
+      dispatch(darkSlice.actions.change(!isDark))
+    }}>{isDark ? 'Light' : 'Dark'}</button>
   </div>
 }
 function App() {
-  const [isDark, setIsDark] = useState(false);
+  const isDark = useSelector(state=>state.darkmode.isDark);
   const [topics, setTopics] = useImmer([]);
   const fetchTopics = async()=>{
     const topics = await axios.get('/topics');
@@ -149,9 +157,7 @@ function App() {
   return (
     <div className="App">
       <Header title="웹" />
-      <DarkMode isDark={isDark} changeMode={(isDark)=>{
-        setIsDark(isDark);
-      }}></DarkMode>
+      <DarkMode></DarkMode>
       <Nav topics={topics} />
       <Routes>
       <Route path="/" element={<Article title="Hello" body="Welcome, WEB!" />}></Route>
