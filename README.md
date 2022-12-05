@@ -1,5 +1,13 @@
 # React 부터 RTK query 까지
 
+# v2
+## 사용기술
+- v1
+## 예제의 목적
+- Darkmode를 구현해서 v3에서 도입할 redux의 사전 예제
+## 실행방법 
+- v1과 동일
+
 # v1
 ## 사용기술
 - React

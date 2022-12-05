@@ -104,7 +104,13 @@ const Read = ()=>{
   }, [id]);
   return <Article title={title} body={body}></Article>
 }
+const DarkMode = ({isDark, changeMode})=>{
+  return <div>
+    <button onClick={()=>{changeMode(!isDark);}}>{isDark ? 'Light' : 'Dark'}</button>
+  </div>
+}
 function App() {
+  const [isDark, setIsDark] = useState(false);
   const [topics, setTopics] = useImmer([]);
   const fetchTopics = async()=>{
     const topics = await axios.get('/topics');
@@ -113,6 +119,9 @@ function App() {
   useEffect(()=>{
     fetchTopics();
   },[]);
+  useEffect(()=>{
+    document.querySelector('html').style.filter = `invert(${isDark ? 100 : 0}%)`;
+  }, [isDark])
   const navigate = useNavigate();
   const createHandler = (title, body) => {
     axios.post('/topics', {title, body}).then(result => {
@@ -140,6 +149,9 @@ function App() {
   return (
     <div className="App">
       <Header title="웹" />
+      <DarkMode isDark={isDark} changeMode={(isDark)=>{
+        setIsDark(isDark);
+      }}></DarkMode>
       <Nav topics={topics} />
       <Routes>
       <Route path="/" element={<Article title="Hello" body="Welcome, WEB!" />}></Route>
